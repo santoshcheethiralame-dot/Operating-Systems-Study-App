@@ -22,6 +22,7 @@ export default function UnitPage() {
   const [loading, setLoading] = useState(true);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
   const [openGroups, setOpenGroups] = useState(new Set());
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   useEffect(() => {
     if (!unitMeta || !unitModules[idNum]) return;
@@ -81,22 +82,21 @@ export default function UnitPage() {
   const selectedTopic = selectedTopicId && data.topics ? data.topics[selectedTopicId] : null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+    <div className="app-container">
       {/* Header */}
-      <div style={{ 
-        background: 'var(--surface)', 
-        borderBottom: '1px solid var(--border)', 
-        padding: "12px 20px", 
-        display: "flex", 
-        alignItems: "center", 
-        gap: 16, 
-        flexShrink: 0 
-      }}>
+      <div className="unit-header">
+        <button 
+          className="hamburger-btn" 
+          onClick={() => setIsSidebarOpen(true)}
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
         <span style={{ fontSize: 24 }}>{unitMeta.emoji}</span>
-        <span style={{ fontWeight: 800, color: 'var(--gold)', letterSpacing: 1 }}>
+        <span className="unit-header-title" style={{ fontWeight: 800, color: 'var(--gold)', letterSpacing: 1 }}>
           {unitMeta.title.toUpperCase()}
         </span>
-        <span style={{ 
+        <span className="unit-header-badges" style={{ 
           background: 'var(--blue)', 
           color: "#fff", 
           borderRadius: 4, 
@@ -106,46 +106,47 @@ export default function UnitPage() {
         }}>
           UNIT {idNum}
         </span>
-        <span style={{ marginLeft: "auto", color: 'var(--muted)', fontSize: 12, fontWeight: 500 }}>
+        <span className="unit-header-badges" style={{ marginLeft: "auto", color: 'var(--muted)', fontSize: 12, fontWeight: 500 }}>
           {Object.keys(data.topics || {}).length} topics
         </span>
       </div>
 
-      <div style={{ display: "flex", flex: 1, overflow: "hidden", position: 'relative' }}>
+      <div className="unit-body">
+        {/* Mobile Overlay */}
+        <div 
+          className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} 
+          onClick={() => setIsSidebarOpen(false)} 
+        />
+        
         <Sidebar 
           groups={data.groups || []} 
           topics={data.topics || {}} 
           selectedTopicId={selectedTopicId} 
-          onSelectTopic={setSelectedTopicId} 
+          onSelectTopic={(id) => {
+            setSelectedTopicId(id);
+            setIsSidebarOpen(false); // Close mobile sidebar on select
+          }} 
           openGroups={openGroups} 
           toggleGroup={toggleGroup}
           unitId={idNum}
+          isOpen={isSidebarOpen}
+          closeSidebar={() => setIsSidebarOpen(false)}
         />
 
         {/* Main Content Area */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "32px 40px" }}>
+        <div className="main-content">
           <TopicView topic={selectedTopic} />
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ 
-        background: 'var(--surface)', 
-        borderTop: '1px solid var(--border)', 
-        padding: "8px 20px", 
-        display: "flex", 
-        gap: 20, 
-        fontSize: 12, 
-        color: 'var(--muted)', 
-        flexShrink: 0,
-        alignItems: 'center'
-      }}>
-        <span>📚 {Object.keys(data.topics || {}).length} subtopics</span>
-        <span>•</span>
+      <div className="unit-footer">
+        <span className="unit-footer-stats">📚 {Object.keys(data.topics || {}).length} subtopics</span>
+        <span className="unit-footer-stats">•</span>
         {selectedTopic && (
           <>
-            <span>Current: <span style={{ color: 'var(--gold)', fontWeight: 'bold' }}>{selectedTopic.title}</span></span>
-            <span>•</span>
+            <span className="unit-footer-stats">Current: <span style={{ color: 'var(--gold)', fontWeight: 'bold' }}>{selectedTopic.title}</span></span>
+            <span className="unit-footer-stats">•</span>
           </>
         )}
         <span>Tip: Click any Q&A question to toggle the answer.</span>

@@ -37,12 +37,12 @@ export default function TopicView({ topic }) {
       {/* Title */}
       <div style={{ marginBottom: 28 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-          <span style={{ fontSize: 36 }}>{topic.emoji}</span>
-          <h1 style={{ margin: 0, color: 'var(--gold)', fontSize: 26, fontWeight: 800 }}>{topic.title}</h1>
+          <span className="topic-emoji" style={{ fontSize: 36 }}>{topic.emoji}</span>
+          <h1 className="topic-title" style={{ margin: 0, color: 'var(--gold)', fontSize: 26, fontWeight: 800 }}>{topic.title}</h1>
         </div>
         
         {topic.tldr && (
-          <div style={{ 
+          <div className="topic-tldr" style={{ 
             background: 'var(--blue-bg)', 
             border: '1px solid var(--blue)', 
             borderRadius: 8, 
@@ -60,7 +60,7 @@ export default function TopicView({ topic }) {
       {/* Explanation */}
       {topic.explanation && (
         <Section label="📖 EXPLANATION">
-          <div style={{ 
+          <div className="topic-section-content" style={{ 
             background: 'var(--surface)', 
             border: '1px solid var(--border)', 
             borderRadius: 8, 
@@ -79,7 +79,7 @@ export default function TopicView({ topic }) {
       {/* Key Points */}
       {topic.keyPoints && topic.keyPoints.length > 0 && (
         <Section label="🔑 KEY POINTS">
-          <div style={{ 
+          <div className="topic-section-content" style={{ 
             background: 'var(--surface)', 
             border: '1px solid var(--border)', 
             borderRadius: 8, 

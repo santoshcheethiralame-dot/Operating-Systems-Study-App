@@ -13,7 +13,7 @@ export default function HomePage() {
       fontFamily: 'var(--font-sans)'
     }}>
       <div style={{ maxWidth: 1000, margin: '0 auto', width: '100%' }}>
-        <header style={{ textAlign: 'center', marginBottom: 60 }}>
+        <header className="home-header" style={{ textAlign: 'center', marginBottom: 60 }}>
           <div style={{ 
             fontSize: 64, 
             marginBottom: 16,
@@ -41,7 +41,7 @@ export default function HomePage() {
           </p>
         </header>
 
-        <div style={{ 
+        <div className="home-grid" style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
           gap: 24 
@@ -50,6 +50,7 @@ export default function HomePage() {
             <Link 
               key={unit.id} 
               to={`/unit/${unit.id}`}
+              className="home-card"
               style={{
                 background: unit.gradient,
                 border: '1px solid var(--border)',

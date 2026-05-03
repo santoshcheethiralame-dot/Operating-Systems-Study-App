@@ -1,18 +1,9 @@
 import { Link } from 'react-router-dom';
 
-export default function Sidebar({ groups, topics, selectedTopicId, onSelectTopic, openGroups, toggleGroup, unitId }) {
+export default function Sidebar({ groups, topics, selectedTopicId, onSelectTopic, openGroups, toggleGroup, unitId, isOpen, closeSidebar }) {
   return (
-    <div style={{
-      width: 260,
-      background: 'var(--surface)',
-      borderRight: '1px solid var(--border)',
-      overflowY: 'auto',
-      flexShrink: 0,
-      padding: '8px 0',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      <div style={{ padding: '10px 16px', marginBottom: 8, borderBottom: '1px solid var(--border)' }}>
+    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <div style={{ padding: '10px 16px', marginBottom: 8, borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
         <Link to="/" style={{ 
           fontSize: 13, 
           color: 'var(--muted)', 
@@ -23,6 +14,9 @@ export default function Sidebar({ groups, topics, selectedTopicId, onSelectTopic
         }}>
           <span>←</span> Back to Units
         </Link>
+        <button onClick={closeSidebar} className="hamburger-btn" style={{ padding: '2px 8px', fontSize: 18, border: 'none', background: 'transparent' }}>
+          ×
+        </button>
       </div>
       
       <div style={{ flex: 1, overflowY: 'auto' }}>
